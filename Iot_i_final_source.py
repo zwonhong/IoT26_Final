@@ -11,6 +11,25 @@ from gpiozero.tones import Tone
 from picamera2 import Picamera2
 from RPLCD.i2c import CharLCD
 
+
+def _load_dotenv(path=None):
+    env_path = path or os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+    if not os.path.isfile(env_path):
+        return
+
+    with open(env_path, encoding="utf-8") as env_file:
+        for raw_line in env_file:
+            line = raw_line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            key, value = line.split("=", 1)
+            key = key.strip()
+            value = value.strip().strip('"').strip("'")
+            os.environ.setdefault(key, value)
+
+
+_load_dotenv()
+
 try:
     from inference_sdk import InferenceHTTPClient
     USING_INFERENCE_SDK = True
@@ -68,11 +87,7 @@ RESULT_DISPLAY_SECONDS = 5
 LCD_ADDRESS_CANDIDATES = (0x27, 0x3f)
 ROBOFLOW_MODEL_ID = "yolo-waste-detection-9ebbc/2"
 ROBOFLOW_API_URL = "https://serverless.roboflow.com"
-DEFAULT_ROBOFLOW_API_KEY = ""
-ROBOFLOW_API_KEY = os.getenv(
-    "ROBOFLOW_API_KEY",
-    DEFAULT_ROBOFLOW_API_KEY
-).strip()
+ROBOFLOW_API_KEY = os.getenv("ROBOFLOW_API_KEY", "").strip()
 ROBOFLOW_TIMEOUT_SECONDS = 20
 
 ENV_CONTROL_ENABLED = True
