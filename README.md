@@ -12,3 +12,5 @@ Automatic Waste Sorting System
 
 https://github.com/user-attachments/assets/16bae8e0-6c81-47ab-8cca-8ec9ba6fe279
 
+### model reference: https://github.com/GoldbangE/waste-yolo-model-repo/tree/main
+It is made by our team member
